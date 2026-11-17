@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "elapsed_s": 0.8,
+  "k": 4,
+  "silhouette": 0.423,
+  "inertia": 460.38,
+  "clients": 317,
+  "size_0": 168,
+  "size_1": 95,
+  "size_2": 33,
+  "size_3": 21
+}

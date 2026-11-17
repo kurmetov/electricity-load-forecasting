@@ -1,0 +1,159 @@
+{
+  "index": {
+    "rows": 140256,
+    "start": "2011-01-01 00:15:00",
+    "end": "2015-01-01 00:00:00",
+    "inferred_freq": "15min",
+    "monotonic": true,
+    "duplicates": 0,
+    "missing_steps": 0,
+    "step_counts": {
+      "0 days 00:15:00": 140255
+    }
+  },
+  "missing_zeros": {
+    "nan_values": 0,
+    "clients_total": 370,
+    "clients_active": 317,
+    "clients_by_first_year": {
+      "2011": 160,
+      "2012": 173,
+      "2013": 18,
+      "2014": 19
+    },
+    "clients_never_consume": 0,
+    "clients_end_before_2014_12_31": 2,
+    "mean_zero_days_share": 0.1954
+  },
+  "outliers": {
+    "method": "robust z = |x - median| / (1.4826 * MAD) > 5, daily kWh, active clients, 2012-2014",
+    "flagged_values": 2097,
+    "flagged_share_pct": 0.604,
+    "clients_with_flags": 139,
+    "top_dates": {
+      "2014-12-25": 83,
+      "2013-12-25": 61,
+      "2014-01-01": 53,
+      "2013-01-01": 41,
+      "2012-01-01": 39,
+      "2012-12-25": 35,
+      "2013-07-07": 21,
+      "2013-07-06": 21,
+      "2013-07-05": 16,
+      "2013-07-08": 15
+    },
+    "dst_hours": [
+      {
+        "ts": "2011-03-27 01:00:00",
+        "total_kwh": 69145.1,
+        "neighbours_mean_kwh": 77338.5
+      },
+      {
+        "ts": "2011-10-30 01:00:00",
+        "total_kwh": 67374.2,
+        "neighbours_mean_kwh": 74046.9
+      },
+      {
+        "ts": "2012-03-25 01:00:00",
+        "total_kwh": 4287.1,
+        "neighbours_mean_kwh": 130095.7
+      },
+      {
+        "ts": "2012-10-28 01:00:00",
+        "total_kwh": 239582.0,
+        "neighbours_mean_kwh": 131574.1
+      },
+      {
+        "ts": "2013-03-31 01:00:00",
+        "total_kwh": 4369.8,
+        "neighbours_mean_kwh": 135803.4
+      },
+      {
+        "ts": "2013-10-27 01:00:00",
+        "total_kwh": 248856.4,
+        "neighbours_mean_kwh": 144796.0
+      },
+      {
+        "ts": "2014-03-30 01:00:00",
+        "total_kwh": 454.5,
+        "neighbours_mean_kwh": 137976.7
+      },
+      {
+        "ts": "2014-10-26 01:00:00",
+        "total_kwh": 267445.1,
+        "neighbours_mean_kwh": 142793.5
+      }
+    ]
+  },
+  "stl_daily": {
+    "period": 7,
+    "trend_strength": 0.927,
+    "seasonal_strength": 0.071
+  },
+  "stl_hourly_2014": {
+    "period": 24,
+    "trend_strength": 0.938,
+    "seasonal_strength": 0.987
+  },
+  "stationarity": [
+    {
+      "series": "daily total",
+      "adf_stat": -1.852,
+      "adf_p": 0.355,
+      "kpss_stat": 0.444,
+      "kpss_p": 0.0582,
+      "verdict": "mixed"
+    },
+    {
+      "series": "daily total, diff 1",
+      "adf_stat": -8.607,
+      "adf_p": 0.0,
+      "kpss_stat": 0.189,
+      "kpss_p": 0.1,
+      "verdict": "stationary"
+    },
+    {
+      "series": "daily total, diff 7",
+      "adf_stat": -5.83,
+      "adf_p": 0.0,
+      "kpss_stat": 0.127,
+      "kpss_p": 0.1,
+      "verdict": "stationary"
+    },
+    {
+      "series": "hourly total 2014",
+      "adf_stat": -2.877,
+      "adf_p": 0.0481,
+      "kpss_stat": 5.864,
+      "kpss_p": 0.01,
+      "verdict": "mixed"
+    },
+    {
+      "series": "hourly total 2014, diff 24",
+      "adf_stat": -14.844,
+      "adf_p": 0.0,
+      "kpss_stat": 0.193,
+      "kpss_p": 0.1,
+      "verdict": "stationary"
+    }
+  ],
+  "external": {
+    "pearson_temp": 0.895,
+    "spearman_temp": 0.8853,
+    "pearson_hdd": -0.6776,
+    "pearson_cdd": 0.4578,
+    "workday_mean_mwh": 5308.604,
+    "holiday_mean_mwh": 4705.2554,
+    "weekend_mean_mwh": 5237.2202,
+    "n_holidays_on_workdays": 23.0,
+    "holiday_drop_pct": 11.3655
+  },
+  "figures": [
+    "01_daily_total.png",
+    "01_daily_total.html",
+    "02_stl_daily.png",
+    "03_acf_pacf.png",
+    "04_heatmap_hour_dow.png",
+    "05_temp_vs_load.png"
+  ]
+}

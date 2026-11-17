@@ -1,0 +1,5 @@
+cluster,peak_hour_weekday,night_to_day,weekend_to_weekday,name,n_clients
+0,18.0,0.5,1.0,"evening peak, moderate night",168
+1,20.0,0.89,1.0,flat around the clock,95
+2,18.0,0.24,1.03,"day and evening, near zero at night",33
+3,16.0,0.43,0.46,weekday daytime,21

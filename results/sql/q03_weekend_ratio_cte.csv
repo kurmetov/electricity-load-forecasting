@@ -1,0 +1,5 @@
+cluster_id,name,clients,mean_weekend_ratio,min_ratio,max_ratio
+0,"evening peak, moderate night",168,0.996,0.742,1.045
+1,flat around the clock,95,1.035,0.541,3.166
+2,"day and evening, near zero at night",33,1.026,0.943,1.129
+3,weekday daytime,21,0.465,0.144,0.701

@@ -1,0 +1,8 @@
+{
+  "outlier_rule": "robust z > 5",
+  "stl_periods": [
+    7,
+    24
+  ],
+  "since": "2012-01-01"
+}

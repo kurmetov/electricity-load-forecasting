@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "elapsed_s": 24.4,
+  "csv, pandas default (float64).seconds": 1.693,
+  "csv, pandas default (float64).peak_rss_mb": 510.5,
+  "csv, chunks + float32.seconds": 1.773,
+  "csv, chunks + float32.peak_rss_mb": 421.6,
+  "csv, chunks -> daily sums (streaming).seconds": 1.8,
+  "csv, chunks -> daily sums (streaming).peak_rss_mb": 212.1,
+  "parquet zstd, float32.seconds": 0.065,
+  "parquet zstd, float32.peak_rss_mb": 657.2,
+  "parquet, 10 columns only.seconds": 0.007,
+  "parquet, 10 columns only.peak_rss_mb": 157.3,
+  "pandas: parquet -> melt -> merge -> groupby.seconds": 0.102,
+  "pandas: parquet -> melt -> merge -> groupby.peak_rss_mb": 118.0,
+  "sqlite: JOIN + GROUP BY.seconds": 0.213,
+  "sqlite: JOIN + GROUP BY.peak_rss_mb": 9.1
+}

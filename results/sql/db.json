@@ -1,0 +1,80 @@
+{
+  "rows": {
+    "clusters": 4,
+    "clients": 370,
+    "calendar": 1461,
+    "load_daily": 540570,
+    "models": 6,
+    "forecast_metrics": 1908
+  },
+  "seconds": 1.1,
+  "db_mb": 43.8,
+  "queries": [
+    {
+      "query": "q01_monthly_by_cluster",
+      "rows": 144,
+      "seconds": 0.209,
+      "error": ""
+    },
+    {
+      "query": "q02_large_stable_clients",
+      "rows": 120,
+      "seconds": 0.032,
+      "error": ""
+    },
+    {
+      "query": "q03_weekend_ratio_cte",
+      "rows": 4,
+      "seconds": 0.076,
+      "error": ""
+    },
+    {
+      "query": "q04_rolling_7d_total",
+      "rows": 1096,
+      "seconds": 0.066,
+      "error": ""
+    },
+    {
+      "query": "q05_top3_in_cluster",
+      "rows": 12,
+      "seconds": 0.058,
+      "error": ""
+    },
+    {
+      "query": "q06_peak_days_subquery",
+      "rows": 306,
+      "seconds": 0.202,
+      "error": ""
+    },
+    {
+      "query": "q07_holiday_effect",
+      "rows": 4,
+      "seconds": 0.202,
+      "error": ""
+    },
+    {
+      "query": "q08_yearly_growth_lag",
+      "rows": 15,
+      "seconds": 0.086,
+      "error": ""
+    },
+    {
+      "query": "q09_load_by_temperature",
+      "rows": 5,
+      "seconds": 0.063,
+      "error": ""
+    },
+    {
+      "query": "q10_best_model_per_series",
+      "rows": 6,
+      "seconds": 0.002,
+      "error": ""
+    },
+    {
+      "query": "q11_quality_by_cluster",
+      "rows": 24,
+      "seconds": 0.001,
+      "error": ""
+    }
+  ]
+}

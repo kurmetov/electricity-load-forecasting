@@ -1,0 +1,7 @@
+model,kind,wins,mean_mase_when_best
+gbm,model,202,0.773
+ets,model,58,0.865
+ridge,model,30,0.953
+snaive168,baseline,15,0.63
+naive,baseline,6,0.726
+snaive24,baseline,6,0.796

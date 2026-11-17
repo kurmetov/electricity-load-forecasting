@@ -1,0 +1,7 @@
+model,peak_mb,seconds_with_tracemalloc
+naive,0.64,0.001
+snaive24,0.33,0.001
+snaive168,0.32,0.001
+ets,2.83,68.704
+ridge,11.92,0.089
+gbm,7.65,0.612

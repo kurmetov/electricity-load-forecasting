@@ -1,0 +1,145 @@
+cluster_id,name,month,mwh,clients
+0,"evening peak, moderate night",2012-01,75760.0,168
+1,flat around the clock,2012-01,16542.0,95
+2,"day and evening, near zero at night",2012-01,43226.1,33
+3,weekday daytime,2012-01,2004.0,21
+0,"evening peak, moderate night",2012-02,70998.7,168
+1,flat around the clock,2012-02,15028.0,95
+2,"day and evening, near zero at night",2012-02,39448.6,33
+3,weekday daytime,2012-02,1764.9,21
+0,"evening peak, moderate night",2012-03,75930.8,168
+1,flat around the clock,2012-03,15072.1,95
+2,"day and evening, near zero at night",2012-03,45318.9,33
+3,weekday daytime,2012-03,1783.2,21
+0,"evening peak, moderate night",2012-04,71144.9,168
+1,flat around the clock,2012-04,14276.7,95
+2,"day and evening, near zero at night",2012-04,44230.2,33
+3,weekday daytime,2012-04,1554.9,21
+0,"evening peak, moderate night",2012-05,80600.2,168
+1,flat around the clock,2012-05,15104.0,95
+2,"day and evening, near zero at night",2012-05,62048.1,33
+3,weekday daytime,2012-05,1670.5,21
+0,"evening peak, moderate night",2012-06,82786.2,168
+1,flat around the clock,2012-06,14965.2,95
+2,"day and evening, near zero at night",2012-06,71521.5,33
+3,weekday daytime,2012-06,1545.5,21
+0,"evening peak, moderate night",2012-07,89042.0,168
+1,flat around the clock,2012-07,16110.3,95
+2,"day and evening, near zero at night",2012-07,86449.8,33
+3,weekday daytime,2012-07,1629.0,21
+0,"evening peak, moderate night",2012-08,90885.8,168
+1,flat around the clock,2012-08,15986.9,95
+2,"day and evening, near zero at night",2012-08,90474.3,33
+3,weekday daytime,2012-08,1421.6,21
+0,"evening peak, moderate night",2012-09,85655.3,168
+1,flat around the clock,2012-09,15326.4,95
+2,"day and evening, near zero at night",2012-09,76439.5,33
+3,weekday daytime,2012-09,1557.3,21
+0,"evening peak, moderate night",2012-10,79406.9,168
+1,flat around the clock,2012-10,15172.0,95
+2,"day and evening, near zero at night",2012-10,56570.7,33
+3,weekday daytime,2012-10,1629.2,21
+0,"evening peak, moderate night",2012-11,70909.8,168
+1,flat around the clock,2012-11,14776.5,95
+2,"day and evening, near zero at night",2012-11,44506.5,33
+3,weekday daytime,2012-11,1623.9,21
+0,"evening peak, moderate night",2012-12,73665.1,168
+1,flat around the clock,2012-12,15891.7,95
+2,"day and evening, near zero at night",2012-12,44637.3,33
+3,weekday daytime,2012-12,1531.2,21
+0,"evening peak, moderate night",2013-01,71578.1,168
+1,flat around the clock,2013-01,15679.3,95
+2,"day and evening, near zero at night",2013-01,41035.9,33
+3,weekday daytime,2013-01,1705.3,21
+0,"evening peak, moderate night",2013-02,64061.8,168
+1,flat around the clock,2013-02,13774.7,95
+2,"day and evening, near zero at night",2013-02,34052.2,33
+3,weekday daytime,2013-02,1514.0,21
+0,"evening peak, moderate night",2013-03,70909.3,168
+1,flat around the clock,2013-03,14961.5,95
+2,"day and evening, near zero at night",2013-03,39435.2,33
+3,weekday daytime,2013-03,1574.3,21
+0,"evening peak, moderate night",2013-04,69098.3,168
+1,flat around the clock,2013-04,13509.7,95
+2,"day and evening, near zero at night",2013-04,42030.2,33
+3,weekday daytime,2013-04,1513.4,21
+0,"evening peak, moderate night",2013-05,72000.3,168
+1,flat around the clock,2013-05,13909.7,95
+2,"day and evening, near zero at night",2013-05,50705.8,33
+3,weekday daytime,2013-05,1539.3,21
+0,"evening peak, moderate night",2013-06,76611.9,168
+1,flat around the clock,2013-06,14145.4,95
+2,"day and evening, near zero at night",2013-06,60143.4,33
+3,weekday daytime,2013-06,1467.1,21
+0,"evening peak, moderate night",2013-07,89952.1,168
+1,flat around the clock,2013-07,16450.3,95
+2,"day and evening, near zero at night",2013-07,82674.7,33
+3,weekday daytime,2013-07,1761.8,21
+0,"evening peak, moderate night",2013-08,90380.3,168
+1,flat around the clock,2013-08,16509.0,95
+2,"day and evening, near zero at night",2013-08,83987.7,33
+3,weekday daytime,2013-08,1448.7,21
+0,"evening peak, moderate night",2013-09,82253.2,168
+1,flat around the clock,2013-09,15469.9,95
+2,"day and evening, near zero at night",2013-09,72215.9,33
+3,weekday daytime,2013-09,1652.2,21
+0,"evening peak, moderate night",2013-10,77066.3,168
+1,flat around the clock,2013-10,15284.7,95
+2,"day and evening, near zero at night",2013-10,58229.4,33
+3,weekday daytime,2013-10,1753.4,21
+0,"evening peak, moderate night",2013-11,69179.4,168
+1,flat around the clock,2013-11,14540.5,95
+2,"day and evening, near zero at night",2013-11,44426.1,33
+3,weekday daytime,2013-11,1683.8,21
+0,"evening peak, moderate night",2013-12,71555.0,168
+1,flat around the clock,2013-12,15684.3,95
+2,"day and evening, near zero at night",2013-12,43353.3,33
+3,weekday daytime,2013-12,1686.1,21
+0,"evening peak, moderate night",2014-01,70365.2,168
+1,flat around the clock,2014-01,15684.3,95
+2,"day and evening, near zero at night",2014-01,41309.8,33
+3,weekday daytime,2014-01,1804.7,21
+0,"evening peak, moderate night",2014-02,64027.8,168
+1,flat around the clock,2014-02,14105.9,95
+2,"day and evening, near zero at night",2014-02,34998.9,33
+3,weekday daytime,2014-02,1636.7,21
+0,"evening peak, moderate night",2014-03,69321.8,168
+1,flat around the clock,2014-03,14610.2,95
+2,"day and evening, near zero at night",2014-03,39364.4,33
+3,weekday daytime,2014-03,1588.9,21
+0,"evening peak, moderate night",2014-04,70116.5,168
+1,flat around the clock,2014-04,14374.1,95
+2,"day and evening, near zero at night",2014-04,43184.1,33
+3,weekday daytime,2014-04,1480.3,21
+0,"evening peak, moderate night",2014-05,74897.0,168
+1,flat around the clock,2014-05,14986.6,95
+2,"day and evening, near zero at night",2014-05,52078.8,33
+3,weekday daytime,2014-05,1615.2,21
+0,"evening peak, moderate night",2014-06,77166.0,168
+1,flat around the clock,2014-06,15137.6,95
+2,"day and evening, near zero at night",2014-06,59291.9,33
+3,weekday daytime,2014-06,1599.1,21
+0,"evening peak, moderate night",2014-07,85241.5,168
+1,flat around the clock,2014-07,16605.7,95
+2,"day and evening, near zero at night",2014-07,74074.0,33
+3,weekday daytime,2014-07,1840.4,21
+0,"evening peak, moderate night",2014-08,86692.7,168
+1,flat around the clock,2014-08,16267.6,95
+2,"day and evening, near zero at night",2014-08,79823.8,33
+3,weekday daytime,2014-08,1493.7,21
+0,"evening peak, moderate night",2014-09,80414.7,168
+1,flat around the clock,2014-09,15561.4,95
+2,"day and evening, near zero at night",2014-09,68743.1,33
+3,weekday daytime,2014-09,1760.3,21
+0,"evening peak, moderate night",2014-10,79680.2,168
+1,flat around the clock,2014-10,15996.9,95
+2,"day and evening, near zero at night",2014-10,59841.2,33
+3,weekday daytime,2014-10,1901.4,21
+0,"evening peak, moderate night",2014-11,69095.2,168
+1,flat around the clock,2014-11,15324.7,95
+2,"day and evening, near zero at night",2014-11,42609.1,33
+3,weekday daytime,2014-11,1739.8,21
+0,"evening peak, moderate night",2014-12,68769.6,168
+1,flat around the clock,2014-12,16299.9,95
+2,"day and evening, near zero at night",2014-12,39520.6,33
+3,weekday daytime,2014-12,1765.0,21

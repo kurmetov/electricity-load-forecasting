@@ -1,0 +1,10 @@
+{
+  "ridge_alpha": 10.0,
+  "gbm_lr": 0.1,
+  "gbm_leaves": 15,
+  "gbm_iter": 300,
+  "ets_window_days": 112,
+  "ets_seasonal": "add",
+  "n_series": 318,
+  "n_clients": 317
+}

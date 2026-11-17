@@ -1,0 +1,6 @@
+method,file_mb,seconds,peak_rss_mb,frame_mb,result_rows
+"csv, pandas default (float64)",678.1,0.775,510.5,397.0,140256
+"csv, chunks + float32",678.1,0.852,422.1,199.0,140256
+"csv, chunks -> daily sums (streaming)",678.1,0.88,214.1,2.1,1462
+"parquet zstd, float32",41.6,0.043,650.9,199.0,140256
+"parquet, 10 columns only",41.6,0.005,133.0,6.4,140256

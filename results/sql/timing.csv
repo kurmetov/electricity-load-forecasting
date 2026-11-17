@@ -1,0 +1,12 @@
+query,rows,seconds,error
+q01_monthly_by_cluster,144,0.209,
+q02_large_stable_clients,120,0.032,
+q03_weekend_ratio_cte,4,0.076,
+q04_rolling_7d_total,1096,0.066,
+q05_top3_in_cluster,12,0.058,
+q06_peak_days_subquery,306,0.202,
+q07_holiday_effect,4,0.202,
+q08_yearly_growth_lag,15,0.086,
+q09_load_by_temperature,5,0.063,
+q10_best_model_per_series,6,0.002,
+q11_quality_by_cluster,24,0.001,

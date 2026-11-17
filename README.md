@@ -24,11 +24,11 @@ the mean over 317 clients.
 | naive | 60,035 | 33.12 | 8.57 | 3.99 | 37.2 | 0.001 | 6 |
 | seasonal naive 24 h | 7,631 | 4.38 | 1.09 | 1.05 | 11.9 | 0.000 | 6 |
 | seasonal naive 168 h | 11,312 | 5.78 | 1.62 | 1.08 | 10.7 | 0.000 | 15 |
-| ETS (24 daily series) | 7,332 | 4.02 | 1.05 | 0.87 | 10.2 | 30.419 | 58 |
-| ridge regression on lags | 6,500 | 3.86 | 0.93 | 0.90 | 11.0 | 0.032 | 30 |
-| gradient boosting | **5,949** | **3.43** | **0.85** | **0.85** | **9.8** | 0.464 | **202** |
+| ETS (24 daily series) | 7,332 | 4.02 | 1.05 | 0.87 | 10.2 | 28.613 | 58 |
+| ridge regression on lags | 6,500 | 3.86 | 0.93 | 0.90 | 11.0 | 0.031 | 30 |
+| gradient boosting | **5,949** | **3.43** | **0.85** | **0.85** | **9.8** | 0.439 | **202** |
 
-The table comes from `results/forecast/summary.csv` (run `20261117-085309_forecast` in `runs/`). Other results:
+The table comes from `results/forecast/summary.csv` (run `20261117-090800_forecast` in `runs/`). Other results:
 4 profile clusters (`results/clusters/`), EDA (`results/eda/`), 11 SQL queries (`results/sql/`),
 time and memory comparisons (`results/bench/`), charts (`results/figures/`, interactive ones are `.html`).
 

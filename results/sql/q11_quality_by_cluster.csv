@@ -1,0 +1,25 @@
+name,model,clients,mean_mase,mean_smape
+"evening peak, moderate night",gbm,168,0.945,7.44
+"evening peak, moderate night",ridge,168,0.954,7.7
+"evening peak, moderate night",ets,168,0.955,7.46
+"evening peak, moderate night",snaive24,168,1.085,8.49
+"evening peak, moderate night",snaive168,168,1.187,8.74
+"evening peak, moderate night",naive,168,4.857,36.18
+flat around the clock,gbm,95,0.729,11.79
+flat around the clock,ets,95,0.739,12.14
+flat around the clock,ridge,95,0.8,12.73
+flat around the clock,snaive168,95,0.934,11.56
+flat around the clock,snaive24,95,0.982,13.32
+flat around the clock,naive,95,2.393,28.59
+"day and evening, near zero at night",gbm,33,0.921,10.82
+"day and evening, near zero at night",ets,33,0.974,11.0
+"day and evening, near zero at night",ridge,33,1.042,13.08
+"day and evening, near zero at night",snaive24,33,1.045,11.67
+"day and evening, near zero at night",snaive168,33,1.266,12.88
+"day and evening, near zero at night",naive,33,5.637,60.49
+weekday daytime,gbm,21,0.519,17.75
+weekday daytime,ets,21,0.569,21.33
+weekday daytime,snaive168,21,0.593,18.41
+weekday daytime,ridge,21,0.638,26.17
+weekday daytime,snaive24,21,1.108,33.3
+weekday daytime,naive,21,1.694,47.0

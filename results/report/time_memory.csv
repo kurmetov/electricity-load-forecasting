@@ -1,0 +1,7 @@
+model,fit_s_total_series,fit_s_mean_clients,peak_tracemalloc_mb
+naive,0.0012,0.001,0.64
+snaive24,0.0004,0.0004,0.33
+snaive168,0.0004,0.0004,0.32
+ets,24.5495,28.6128,2.83
+ridge,0.0396,0.0305,11.92
+gbm,0.4452,0.439,7.65

@@ -1,0 +1,5 @@
+{
+  "chunksize": 20000,
+  "dtype": "float32",
+  "compression": "zstd"
+}

@@ -1,0 +1,5 @@
+name,workday_kwh,weekend_kwh,holiday_kwh
+"evening peak, moderate night",14954.3,15007.1,13227.1
+flat around the clock,5377.6,5046.1,4976.0
+"day and evening, near zero at night",54908.0,56199.2,48156.8
+weekday daytime,3060.6,1453.5,1664.5

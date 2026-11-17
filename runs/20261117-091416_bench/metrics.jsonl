@@ -1,0 +1,7 @@
+{"method": "csv, pandas default (float64)", "seconds": 0.775, "peak_rss_mb": 510.5, "frame_mb": 397.0, "_t": 11.522}
+{"method": "csv, chunks + float32", "seconds": 0.852, "peak_rss_mb": 422.1, "frame_mb": 199.0, "_t": 11.522}
+{"method": "csv, chunks -> daily sums (streaming)", "seconds": 0.88, "peak_rss_mb": 214.1, "frame_mb": 2.1, "_t": 11.522}
+{"method": "parquet zstd, float32", "seconds": 0.043, "peak_rss_mb": 650.9, "frame_mb": 199.0, "_t": 11.522}
+{"method": "parquet, 10 columns only", "seconds": 0.005, "peak_rss_mb": 133.0, "frame_mb": 6.4, "_t": 11.522}
+{"method": "pandas: parquet -> melt -> merge -> groupby", "seconds": 0.074, "peak_rss_mb": 118.9, "frame_mb": 0.0, "_t": 11.522}
+{"method": "sqlite: JOIN + GROUP BY", "seconds": 0.164, "peak_rss_mb": 9.2, "frame_mb": 0.0, "_t": 11.523}

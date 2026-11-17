@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "elapsed_s": 2.6,
+  "convert.rows": 140256,
+  "convert.clients": 370,
+  "convert.values": 51894720,
+  "convert.chunksize": 20000,
+  "convert.seconds": 2.2,
+  "convert.peak_mb": 175.6,
+  "convert.chunk_mb_float64": 56.61,
+  "convert.chunk_mb_float32": 28.38,
+  "convert.full_mb_float64_est": 395.9,
+  "convert.full_mb_float32_est": 198.0,
+  "convert.csv_mb": 678.1,
+  "convert.parquet_mb": 41.6,
+  "resample.hourly_rows": 35064,
+  "resample.daily_rows": 1461,
+  "resample.hourly_mb": 19.3,
+  "resample.daily_mb": 2.11,
+  "resample.active_clients": 317,
+  "resample.seconds": 0.4
+}

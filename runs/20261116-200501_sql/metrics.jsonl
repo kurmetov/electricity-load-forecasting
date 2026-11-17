@@ -1,0 +1,11 @@
+{"query": "q01_monthly_by_cluster", "rows": 144, "seconds": 0.238, "_t": 2.364}
+{"query": "q02_large_stable_clients", "rows": 120, "seconds": 0.035, "_t": 2.364}
+{"query": "q03_weekend_ratio_cte", "rows": 4, "seconds": 0.091, "_t": 2.364}
+{"query": "q04_rolling_7d_total", "rows": 1096, "seconds": 0.069, "_t": 2.364}
+{"query": "q05_top3_in_cluster", "rows": 12, "seconds": 0.061, "_t": 2.364}
+{"query": "q06_peak_days_subquery", "rows": 306, "seconds": 0.206, "_t": 2.364}
+{"query": "q07_holiday_effect", "rows": 4, "seconds": 0.21, "_t": 2.364}
+{"query": "q08_yearly_growth_lag", "rows": 15, "seconds": 0.091, "_t": 2.364}
+{"query": "q09_load_by_temperature", "rows": 5, "seconds": 0.066, "_t": 2.365}
+{"query": "q10_best_model_per_series", "rows": 6, "seconds": 0.002, "_t": 2.365}
+{"query": "q11_quality_by_cluster", "rows": 24, "seconds": 0.001, "_t": 2.365}

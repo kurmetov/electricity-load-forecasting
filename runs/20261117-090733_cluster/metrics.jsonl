@@ -1,0 +1,9 @@
+{"k": 2, "inertia": 778.88, "silhouette": 0.3292, "min_size": 107, "_t": 0.633}
+{"k": 3, "inertia": 603.51, "silhouette": 0.3633, "min_size": 21, "_t": 0.633}
+{"k": 4, "inertia": 460.38, "silhouette": 0.423, "min_size": 21, "_t": 0.633}
+{"k": 5, "inertia": 360.59, "silhouette": 0.4309, "min_size": 1, "_t": 0.633}
+{"k": 6, "inertia": 287.58, "silhouette": 0.4422, "min_size": 1, "_t": 0.633}
+{"k": 7, "inertia": 247.97, "silhouette": 0.4503, "min_size": 1, "_t": 0.633}
+{"k": 8, "inertia": 219.59, "silhouette": 0.4543, "min_size": 1, "_t": 0.633}
+{"k": 9, "inertia": 204.65, "silhouette": 0.28, "min_size": 1, "_t": 0.633}
+{"k": 10, "inertia": 194.8, "silhouette": 0.2505, "min_size": 1, "_t": 0.633}

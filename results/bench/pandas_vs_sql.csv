@@ -1,0 +1,3 @@
+method,seconds,peak_rss_mb,frame_mb,result_rows,same_result
+pandas: parquet -> melt -> merge -> groupby,0.074,118.9,0.0,144,True
+sqlite: JOIN + GROUP BY,0.164,9.2,0.0,144,True

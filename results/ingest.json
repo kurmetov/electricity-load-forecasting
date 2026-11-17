@@ -1,0 +1,24 @@
+{
+  "convert": {
+    "rows": 140256,
+    "clients": 370,
+    "values": 51894720,
+    "chunksize": 20000,
+    "seconds": 2.2,
+    "peak_mb": 175.6,
+    "chunk_mb_float64": 56.61,
+    "chunk_mb_float32": 28.38,
+    "full_mb_float64_est": 395.9,
+    "full_mb_float32_est": 198.0,
+    "csv_mb": 678.1,
+    "parquet_mb": 41.6
+  },
+  "resample": {
+    "hourly_rows": 35064,
+    "daily_rows": 1461,
+    "hourly_mb": 19.3,
+    "daily_mb": 2.11,
+    "active_clients": 317,
+    "seconds": 0.4
+  }
+}

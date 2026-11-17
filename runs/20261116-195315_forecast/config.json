@@ -1,0 +1,38 @@
+{
+  "train": [
+    "2012-01-01",
+    "2014-10-01"
+  ],
+  "test": [
+    "2014-10-01",
+    "2014-12-31"
+  ],
+  "horizon_h": 24,
+  "origin": "every midnight of the test period",
+  "lags": [
+    24,
+    48,
+    72,
+    168,
+    336
+  ],
+  "params": {
+    "ridge_alpha": 10.0,
+    "gbm_lr": 0.1,
+    "gbm_leaves": 15,
+    "gbm_iter": 300,
+    "ets_window_days": 56,
+    "ets_period": 168
+  },
+  "tuning": "TimeSeriesSplit(4, test_size=28 days) on total series, mean MAE",
+  "series": 318,
+  "models": [
+    "naive",
+    "snaive24",
+    "snaive168",
+    "ets",
+    "ridge",
+    "gbm"
+  ],
+  "mase_scale": "in-sample MAE of seasonal naive 24 h"
+}

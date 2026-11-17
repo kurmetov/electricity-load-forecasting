@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "elapsed_s": 2.4,
+  "rows.clusters": 4,
+  "rows.clients": 370,
+  "rows.calendar": 1461,
+  "rows.load_daily": 540570,
+  "rows.models": 6,
+  "rows.forecast_metrics": 1908,
+  "load_s": 1.2,
+  "db_mb": 43.8,
+  "queries": 11,
+  "failed": 0
+}

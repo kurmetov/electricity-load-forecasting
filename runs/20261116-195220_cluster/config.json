@@ -1,0 +1,24 @@
+{
+  "features": "48 normalised hourly means (weekday, weekend)",
+  "period": [
+    "2012-01-01",
+    "2014-10-01"
+  ],
+  "k_given": null,
+  "k_rule": "max silhouette, k >= 3, smallest cluster >= 5",
+  "seed": 0,
+  "n_init": 20,
+  "grid": {
+    "k": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  }
+}

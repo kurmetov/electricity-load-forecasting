@@ -1,0 +1,11 @@
+{
+  "csv_over_parquet_time": 18.023,
+  "csv_over_parquet_size": 16.3,
+  "pandas_over_sql_memory": 12.924,
+  "pandas_seconds": 0.074,
+  "sqlite_seconds": 0.164,
+  "pandas_peak_rss_mb": 118.9,
+  "sqlite_peak_rss_mb": 9.2,
+  "gbm_over_ridge_time": 14.393,
+  "gbm_vs_snaive24_pct": 22.046
+}

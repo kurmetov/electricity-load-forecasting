@@ -51,16 +51,16 @@ Expectation: Parquet is read 10+ times faster than CSV; SQLite is comparable to 
 
 ## Run outcomes
 
-The final set is all steps on commit b9d5e17 (`python main.py all`). The report takes its numbers from these runs.
+The final set is all steps on commit 6e8dbef (`python main.py all`). The report takes its numbers from these runs.
 
 | Step | Run | Outcome vs expectation |
 |---|---|---|
-| S1 | 20261117-085143_ingest | float32 is half of float64 (28.4 vs 56.6 MB per chunk), as expected. Parquet 41.6 MB vs 678 MB of CSV, 16 times smaller, more than expected. |
-| S2 | 20261117-085146_eda | Continuous index, no NaN, leading zeros present, as expected. Weekly seasonality is weak (0.07), a strong one was expected. Load grows with temperature (r = 0.90): cooling, not heating. Holiday −11.4 %. |
-| S3 | 20261117-085239_cluster | k = 4, silhouette 0.423. Profiles: evening, flat, day and evening, weekday. With k ≥ 5 a cluster of one client appears. |
-| S4 | 20261117-085309_forecast | Boosting is the best: total MASE 0.85, best for 202 of 317 clients. Seasonal naive 24 h beats 168 h on the total, contrary to expectation (the weekly cycle is weak). Errors on holidays are ~3 times higher. |
-| S5 | 20261117-085940_sql | load_daily has 540,570 rows, 11 queries, all < 0.3 s. |
-| S6 | 20261117-085942_bench | Parquet is read 18 times faster than CSV, but peak memory when reading the whole file is not lower. SQLite is slower than pandas (0.17 vs 0.07 s) but uses 12 times less memory. |
+| S1 | 20261117-090728_ingest | float32 is half of float64 (28.4 vs 56.6 MB per chunk), as expected. Parquet 41.6 MB vs 678 MB of CSV, 16 times smaller, more than expected. |
+| S2 | 20261117-090731_eda | Continuous index, no NaN, leading zeros present, as expected. Weekly seasonality is weak (0.07), a strong one was expected. Load grows with temperature (r = 0.90): cooling, not heating. Holiday −11.4 %. |
+| S3 | 20261117-090733_cluster | k = 4, silhouette 0.423. Profiles: evening, flat, day and evening, weekday. With k ≥ 5 a cluster of one client appears. |
+| S4 | 20261117-090800_forecast | Boosting is the best: total MASE 0.85, best for 202 of 317 clients. Seasonal naive 24 h beats 168 h on the total, contrary to expectation (the weekly cycle is weak). Errors on holidays are ~3 times higher. |
+| S5 | 20261117-091414_sql | load_daily has 540,570 rows, 11 queries, all < 0.3 s. |
+| S6 | 20261117-091416_bench | Parquet is read 18 times faster than CSV, but peak memory when reading the whole file is not lower. SQLite is slower than pandas (0.17 vs 0.07 s) but uses 13 times less memory. |
 
 Intermediate runs (their recorded commits come from the project history before the English translation and are not in this repository):
 

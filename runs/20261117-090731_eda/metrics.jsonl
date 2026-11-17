@@ -1,0 +1,5 @@
+{"series": "daily total", "adf_p": 0.355, "kpss_p": 0.0582, "_t": 1.734}
+{"series": "daily total, diff 1", "adf_p": 0.0, "kpss_p": 0.1, "_t": 1.734}
+{"series": "daily total, diff 7", "adf_p": 0.0, "kpss_p": 0.1, "_t": 1.734}
+{"series": "hourly total 2014", "adf_p": 0.0481, "kpss_p": 0.01, "_t": 1.734}
+{"series": "hourly total 2014, diff 24", "adf_p": 0.0, "kpss_p": 0.1, "_t": 1.734}

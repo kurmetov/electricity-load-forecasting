@@ -1,0 +1,5 @@
+{
+  "repeat_csv": 2,
+  "repeat_other": 5,
+  "memory": "peak RSS growth in a spawned process"
+}

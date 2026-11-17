@@ -1,0 +1,11 @@
+.claude/
+data/raw/
+__pycache__/
+.venv/
+*.pyc
+runs/*/artifacts/
+data/interim/
+handoffs/
+AGENTS.md
+CLAUDE.md
+*.log

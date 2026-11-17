@@ -1,0 +1,13 @@
+# Experiment browser (runboard). Start: `uv run runboard`, then http://127.0.0.1:5050
+title = "electricity-load-forecasting"
+lang = "ru"
+runs = "runs"
+docs = "docs"
+doc_order = ["experiments", "er"]
+prereg = ["docs/experiments.md"]
+prereg_tag = "step"
+datasets = ["data/processed", "results"]
+
+[sync]
+label = "Fetch runs from the server"
+command = "rsync -az server:study/electricity-load-forecasting/runs/ runs/ && rsync -az server:study/electricity-load-forecasting/results/ results/"

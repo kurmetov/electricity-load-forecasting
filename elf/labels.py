@@ -16,7 +16,7 @@ LABELS = {
     "file_mb": "File, MB",
     "seconds": "Time, s",
     "peak_rss_mb": "Peak RSS, MB",
-    "frame_mb": "Frame in memory, MB",
+    "frame_mb": "Table in memory, MB",
     "result_rows": "Result rows",
     "same_result": "Same result",
     "csv, pandas default (float64)": "CSV, pandas default (float64)",

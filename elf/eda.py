@@ -8,6 +8,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -141,17 +142,23 @@ def make_figures(daily_total: pd.Series, hourly_total: pd.Series, stl_daily, cal
 
     fig = stl_daily.plot()
     fig.set_size_inches(10, 6)
-    fig.suptitle("STL of the daily series (period 7)", y=1.0)
+    fig.suptitle("STL of the daily series (period 7), MWh per day", y=1.0)
+    for ax in fig.axes:  # kWh -> MWh on the ticks, no 1e6 offset
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v / 1000:,.0f}"))
+        ax.set_ylabel(f"{ax.get_ylabel() or 'Load'}, MWh")
     fig.tight_layout()
     fig.savefig(cfg.FIGURES / "02_stl_daily.png", dpi=150)
     plt.close(fig)
     saved.append("02_stl_daily.png")
 
-    fig, axes = plt.subplots(2, 2, figsize=(10, 6))
+    fig, axes = plt.subplots(2, 2, figsize=(12, 5.4))
     plot_acf(hourly_total, lags=336, ax=axes[0, 0], markersize=2, title="ACF, hourly series (up to 336 h)")
     plot_pacf(hourly_total, lags=72, ax=axes[0, 1], markersize=2, method="ywm", title="PACF, hourly series (up to 72 h)")
     plot_acf(daily_total, lags=60, ax=axes[1, 0], markersize=3, title="ACF, daily series (up to 60 days)")
     plot_pacf(daily_total, lags=30, ax=axes[1, 1], markersize=3, method="ywm", title="PACF, daily series (up to 30 days)")
+    for ax, unit in zip(axes.flat, ("h", "h", "days", "days")):
+        ax.set_xlabel(f"lag, {unit}")
+        ax.set_ylabel("correlation")
     fig.tight_layout()
     fig.savefig(cfg.FIGURES / "03_acf_pacf.png", dpi=150)
     plt.close(fig)
@@ -164,7 +171,7 @@ def make_figures(daily_total: pd.Series, hourly_total: pd.Series, stl_daily, cal
     ax.set_xticks(range(0, 24, 2), range(0, 24, 2))
     ax.set_xlabel("hour")
     ax.set_title("Mean hourly consumption by day of week, MWh")
-    fig.colorbar(im, ax=ax)
+    fig.colorbar(im, ax=ax, label="MWh per hour")
     fig.tight_layout()
     fig.savefig(cfg.FIGURES / "04_heatmap_hour_dow.png", dpi=150)
     plt.close(fig)

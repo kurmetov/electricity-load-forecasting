@@ -24,11 +24,11 @@ the mean over 317 clients.
 | naive | 60,035 | 33.12 | 8.57 | 3.99 | 37.2 | 0.001 | 6 |
 | seasonal naive 24 h | 7,631 | 4.38 | 1.09 | 1.05 | 11.9 | 0.000 | 6 |
 | seasonal naive 168 h | 11,312 | 5.78 | 1.62 | 1.08 | 10.7 | 0.000 | 15 |
-| ETS (24 daily series) | 7,332 | 4.02 | 1.05 | 0.87 | 10.2 | 28.604 | 58 |
-| ridge regression on lags | 6,500 | 3.86 | 0.93 | 0.90 | 11.0 | 0.030 | 30 |
-| gradient boosting | **5,949** | **3.43** | **0.85** | **0.85** | **9.8** | 0.441 | **202** |
+| ETS (24 daily series) | 7,332 | 4.02 | 1.05 | 0.87 | 10.2 | 30.419 | 58 |
+| ridge regression on lags | 6,500 | 3.86 | 0.93 | 0.90 | 11.0 | 0.032 | 30 |
+| gradient boosting | **5,949** | **3.43** | **0.85** | **0.85** | **9.8** | 0.464 | **202** |
 
-The table comes from `results/forecast/summary.csv` (run `20261117-081614_forecast` in `runs/`). Other results:
+The table comes from `results/forecast/summary.csv` (run `20261117-085309_forecast` in `runs/`). Other results:
 4 profile clusters (`results/clusters/`), EDA (`results/eda/`), 11 SQL queries (`results/sql/`),
 time and memory comparisons (`results/bench/`), charts (`results/figures/`, interactive ones are `.html`).
 
@@ -64,7 +64,7 @@ uv run --group docs python report/build.py    # report.md -> report.docx -> repo
 uv run --group docs python report/slides.py   # report/slides.pptx
 ```
 
-Checks: `uv run --group docs python tests/test_core.py`.
+Checks: `uv run python tests/test_core.py`.
 
 ### Run log (runboard)
 
@@ -77,7 +77,7 @@ Each pipeline step is recorded as a run in `runs/`: config, commit, metrics, out
 main.py              console menu and step runner
 app.py               Streamlit dashboard
 elf/config.py        paths and constants
-elf/data.py          download, CSV -> Parquet in chunks, float32, resampling, clock change fix
+elf/data.py          download, CSV -> Parquet in chunks, float32, resampling, DST fix
 elf/external.py      weather (Open-Meteo), holidays, calendar, correlations
 elf/eda.py           index, gaps, outliers, statistics, STL, ADF/KPSS, ACF/PACF, charts
 elf/clustering.py    k-means of daily profiles
@@ -119,8 +119,8 @@ docs/                experiment plan, ER diagram (mermaid)
 
 ## Notes
 
-- The timestamp in the source file is the start of a 15-minute interval: the zeros of the summer time switch fall exactly
-  on 01:00–01:45. The 01:00 hour on clock-change days is fixed (`elf/data.py: fix_dst`).
+- The timestamp in the source file is the start of a 15-minute interval: the zeros of the daylight saving time (DST) change fall exactly
+  on 01:00–01:45. The 01:00 hour on DST change days is fixed (`elf/data.py: fix_dst`).
 - The forecast uses the actual temperature, not a weather forecast, so the quality of the models with temperature
   is slightly higher than it would be in real use.
 - The SQLite database (`data/interim/elf.sqlite`, ~45 MB) and the large Parquet files are not in git; the `ingest` and `db` steps create them.

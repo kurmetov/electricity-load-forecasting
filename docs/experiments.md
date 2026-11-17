@@ -5,7 +5,7 @@ and what was expected before the run. After the run, the run id and the outcome 
 
 Data: UCI ElectricityLoadDiagrams20112014, 370 clients, 15 min, 2011-01-01 – 2014-12-31.
 Training from 2012-01-01 (many clients are not connected yet in 2011), hold-out period
-2014-10-01 – 2014-12-31 (92 days, 2208 hours).
+2014-10-01 – 2014-12-31 (92 days, 2,208 hours).
 
 ## S1 ingest
 
@@ -17,7 +17,7 @@ Expectation: float32 takes half the memory of float64; Parquet (zstd) is 5–10 
 Question: index quality (frequency, duplicates, gaps), missing values and zeros, outliers, seasonality,
 stationarity, relation to temperature and holidays.
 Expectation: continuous 15-minute index; no NaN, leading zeros for clients connected later;
-outliers on clock-change days; strong daily and weekly seasonality; the daily series is non-stationary
+outliers on DST change days; strong daily and weekly seasonality; the daily series is non-stationary
 by KPSS because of trend and yearly seasonality; load on holidays is lower than on weekdays.
 
 ## S3 cluster
@@ -41,28 +41,30 @@ ETS in between; higher errors on holidays (December) and on clients with irregul
 
 Question: loading the derived tables into SQLite and 11 queries (JOIN, GROUP BY/HAVING, CTE,
 subqueries, window functions) with results in pandas.
-Expectation: load_daily = 370 × 1461 = 540,570 rows; every query runs in under a second.
+Expectation: load_daily = 370 × 1,461 = 540,570 rows; every query runs in under a second.
 
 ## S6 bench
 
-Question: time and memory of reading CSV (default and in chunks with float32) against Parquet;
-pandas aggregation against SQLite.
+Question: time and memory of reading CSV (default and in chunks with float32) vs Parquet;
+pandas aggregation vs SQLite.
 Expectation: Parquet is read 10+ times faster than CSV; SQLite is comparable to pandas on daily aggregation.
 
 ## Run outcomes
 
-The final set is all steps on one commit (`python main.py all`). The report takes its numbers from these runs.
+The final set is all steps on commit b9d5e17 (`python main.py all`). The report takes its numbers from these runs.
 
-| Step | Run | Outcome against expectation |
+| Step | Run | Outcome vs expectation |
 |---|---|---|
-| S1 | RUN_S1 | float32 is half of float64 (28.4 against 56.6 MB per chunk), as expected. Parquet 41.6 MB against 678 MB of CSV, 16 times smaller, more than expected. |
-| S2 | RUN_S2 | Continuous index, no NaN, leading zeros present, as expected. Weekly seasonality is weak (0.07), a strong one was expected. Load grows with temperature (r = 0.90): cooling, not heating. Holiday −11.4 %. |
-| S3 | RUN_S3 | k = 4, silhouette 0.423. Profiles: evening, flat, day and evening, weekday. With k ≥ 5 a cluster of one client appears. |
-| S4 | RUN_S4 | Boosting is the best: total MASE 0.85, best for 202 of 317 clients. Seasonal naive 24 h beats 168 h on the total, against expectation (the weekly cycle is weak). Errors on holidays are ~3 times higher. |
-| S5 | RUN_S5 | load_daily has 540,570 rows, 11 queries, all < 0.3 s. |
-| S6 | RUN_S6 | Parquet is read 22 times faster than CSV, but peak memory when reading the whole file is not lower. SQLite is slower than pandas (0.17 against 0.08 s) but uses 13 times less memory. |
+| S1 | 20261117-085143_ingest | float32 is half of float64 (28.4 vs 56.6 MB per chunk), as expected. Parquet 41.6 MB vs 678 MB of CSV, 16 times smaller, more than expected. |
+| S2 | 20261117-085146_eda | Continuous index, no NaN, leading zeros present, as expected. Weekly seasonality is weak (0.07), a strong one was expected. Load grows with temperature (r = 0.90): cooling, not heating. Holiday −11.4 %. |
+| S3 | 20261117-085239_cluster | k = 4, silhouette 0.423. Profiles: evening, flat, day and evening, weekday. With k ≥ 5 a cluster of one client appears. |
+| S4 | 20261117-085309_forecast | Boosting is the best: total MASE 0.85, best for 202 of 317 clients. Seasonal naive 24 h beats 168 h on the total, contrary to expectation (the weekly cycle is weak). Errors on holidays are ~3 times higher. |
+| S5 | 20261117-085940_sql | load_daily has 540,570 rows, 11 queries, all < 0.3 s. |
+| S6 | 20261117-085942_bench | Parquet is read 18 times faster than CSV, but peak memory when reading the whole file is not lower. SQLite is slower than pandas (0.17 vs 0.07 s) but uses 12 times less memory. |
 
-Earlier variants, replaced before the final runs:
+Intermediate runs (their recorded commits come from the project history before the English translation and are not in this repository):
 
-- ETS as one model on the hourly series (168 h season, 56-day window): total MAE 20,963 against 7,631 for seasonal naive 24 h. The level follows the last evening hours. Replaced by ETS on 24 daily series, settings chosen on September 2014.
-- The first memory benchmark was wrong: tracemalloc does not see pyarrow, and ru_maxrss was not reset between measurements. Fixed: peak RSS is reset via /proc/self/clear_refs.
+- 20261116-195315_forecast: ETS as one model on the hourly series (168 h season, 56-day window): total MAE 20,963 vs 7,631 for seasonal naive 24 h. The level follows the last evening hours. Replaced by ETS on 24 daily series, settings chosen on September 2014.
+- 20261116-195734_forecast: the same model code as the final run; the metrics match.
+- 20261116-200504_bench, 20261116-200553_bench: memory was measured wrongly (tracemalloc does not see pyarrow, then ru_maxrss without resetting the peak). Fixed: peak RSS is reset via /proc/self/clear_refs.
+- 20261116-195010_ingest, 195013_eda, 195220_cluster, 200501_sql, 200626_bench: early versions of the same steps.

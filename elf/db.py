@@ -121,7 +121,7 @@ def draw_er(path=None) -> None:
     pos = {"clusters": (0, 1), "clients": (1, 1), "load_daily": (2, 1), "calendar": (3, 1),
            "models": (2, 0), "forecast_metrics": (1, 0)}
     fig, ax = plt.subplots(figsize=(12, 6))
-    box_w, line_h = 0.85, 0.045
+    box_w, line_h = 0.9, 0.05
     row_y, box_x = {}, {}
     for t in tables:
         x, y = pos.get(t, (3, 0))
@@ -129,12 +129,12 @@ def draw_er(path=None) -> None:
         h = line_h * (len(cols[t]) + 1)
         ax.add_patch(plt.Rectangle((x, top - h), box_w, h, fill=False, lw=1.2))
         ax.add_patch(plt.Rectangle((x, top - line_h), box_w, line_h, color="#dde6f0"))
-        ax.text(x + 0.02, top - line_h / 2, t, va="center", fontsize=9, weight="bold")
+        ax.text(x + 0.02, top - line_h / 2, t, va="center", fontsize=12, weight="bold")
         fk_cols = {f[3] for f in fks[t]}
         for i, c in enumerate(cols[t]):
             mark = ("PK " if c[5] else "") + ("FK " if c[1] in fk_cols else "")
             yy = top - line_h * (i + 1.5)
-            ax.text(x + 0.02, yy, f"{mark}{c[1]} : {c[2]}", va="center", fontsize=7.5)
+            ax.text(x + 0.02, yy, f"{mark}{c[1]} : {c[2]}", va="center", fontsize=10.5)
             row_y[(t, c[1])] = yy
         box_x[t] = x
     for t, flist in fks.items():  # arrow from the FK row to the PK row, edge to edge
@@ -148,9 +148,9 @@ def draw_er(path=None) -> None:
     ax.set_xlim(-0.1, 4)
     ax.set_ylim(0.0, 1.05)
     ax.axis("off")
-    ax.set_title("ER diagram (arrow: foreign key -> primary key)")
+    ax.set_title("ER diagram (arrow: foreign key -> primary key)", fontsize=13)
     fig.tight_layout()
-    fig.savefig(path or cfg.FIGURES / "09_er.png", dpi=150)
+    fig.savefig(path or cfg.FIGURES / "09_er.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 

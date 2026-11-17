@@ -49,7 +49,7 @@ def csv_table(spec: str) -> list[list[str]]:
     digits = {c: column_digits(df[c]) for c in df.columns if pd.api.types.is_float_dtype(df[c])}
     out = df.astype(object)
     for c, d in digits.items():
-        out[c] = [f"{v:,.{d}f}".replace(",", "\u00a0") if pd.notna(v) else "" for v in df[c]]
+        out[c] = [f"{v:,.{d}f}" if pd.notna(v) else "" for v in df[c]]
     fmt = lambda v: "" if v == "" or pd.isna(v) else pretty(v)
     return [headers] + [[fmt(v) for v in row] for row in out.itertuples(index=False)]
 
@@ -67,7 +67,7 @@ def _load(path: str):
 def _format(value, fmt: str) -> str:
     if fmt:
         value = format(float(value), fmt)
-    return str(value).replace(",", "\u00a0")
+    return str(value)
 
 
 def resolve(text: str) -> str:

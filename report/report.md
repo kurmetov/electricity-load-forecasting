@@ -4,7 +4,7 @@ Course project, topic No. 56 "Electricity Load Forecasting". Code: the `electric
 
 ## 1. Task
 
-Using the consumption history of an electricity supplier's clients, build a day-ahead forecast of hourly load and find typical daily consumption profiles. The forecast is compared with simple baselines (naive and seasonal naive) on accuracy, training time and memory. Profiles are found with k-means clustering.
+The task is to build a day-ahead forecast of hourly load from the consumption history of an electricity supplier's clients and to find typical daily consumption profiles. The forecast is compared with simple baselines (naive and seasonal naive) on accuracy, training time and memory. Profiles are found with k-means clustering.
 
 ## 2. Data
 
@@ -25,11 +25,11 @@ Ways to read the same data (`elf/bench.py`; time is the median of several runs, 
 
 {{csv:results/bench/read_formats.csv|method,file_mb,seconds,peak_rss_mb,frame_mb}}
 
-Parquet is read in {{cell:results/bench/read_formats.csv:method=parquet zstd, float32:seconds|.3f}} s against {{cell:results/bench/read_formats.csv:method=csv, pandas default (float64):seconds|.2f}} s for CSV (ratio {{json:results/report/ratios.json:csv_over_parquet_time|.0f}}) and takes {{json:results/ingest.json:convert.parquet_mb|.1f}} MB on disk against {{json:results/ingest.json:convert.csv_mb|.0f}} MB. CSV is also read fast, because pandas 3 parses it in C and after the first read the file sits in the OS cache; on a cold read the gap is larger. There is no gain in peak memory: pyarrow first builds the table in its own format and then copies it into pandas. Only streaming saves memory, when each chunk is reduced to daily sums at once and only one chunk is held in memory. Reading 10 columns from Parquet is almost free, which is the main advantage of a columnar format.
+Parquet is read in {{cell:results/bench/read_formats.csv:method=parquet zstd, float32:seconds|.3f}} s vs {{cell:results/bench/read_formats.csv:method=csv, pandas default (float64):seconds|.2f}} s for CSV (ratio {{json:results/report/ratios.json:csv_over_parquet_time|.0f}}) and takes {{json:results/ingest.json:convert.parquet_mb|.1f}} MB on disk vs {{json:results/ingest.json:convert.csv_mb|.0f}} MB. CSV is also read fast, because pandas 3 parses it in C and after the first read the file sits in the OS cache; on a cold read the gap is larger. There is no gain in peak memory: pyarrow first builds the table in its own format and then copies it into pandas. Only streaming saves memory, when each chunk is reduced to daily sums at once and only one chunk is held in memory. Reading 10 columns from Parquet is almost free, which is the main advantage of a columnar format.
 
-The data are then aggregated to hours and days (`resample_load`). The timestamp in the file is the start of a 15-minute interval. This is visible on the days of the switch to summer time: all clients have zeros exactly at 01:00–01:45. The file ends with the timestamp 2015-01-01 00:00; this last incomplete hour is dropped. The result is 35,064 hours and 1461 days.
+The data are then aggregated to hours and days (`resample_load`). The timestamp in the file is the start of a 15-minute interval. This is visible on the days of the daylight saving time (DST) change: all clients have zeros exactly at 01:00–01:45. The file ends with the timestamp 2015-01-01 00:00; this last incomplete hour is dropped. The result is 35,064 hours and 1,461 days.
 
-On the clock-change days (last Sunday of March and October) in 2012–2014 there is an artefact: in March the 01:00 hour is zero, in October it holds two hours. There is no artefact in 2011. The function `fix_dst` checks the total load and, if the artefact is present, replaces the March hour with the mean of its neighbours and halves the October hour.
+On the DST change days (last Sunday of March and October) in 2012–2014 there is an artefact: in March the 01:00 hour is zero, in October it holds two hours. There is no artefact in 2011. The function `fix_dst` checks the total load and, if the artefact is present, replaces the March hour with the mean of its neighbours and halves the October hour.
 
 ## 4. Exploratory analysis
 
@@ -75,7 +75,7 @@ Mean working-day load by temperature band (SQL query `q09`):
 
 {{csv:results/sql/q09_load_by_temperature.csv}}
 
-A holiday on a weekday lowers the load by {{json:results/eda/eda.json:external.holiday_drop_pct|.1f}} % on average ({{json:results/eda/eda.json:external.holiday_mean_mwh|,.0f}} MWh against {{json:results/eda/eda.json:external.workday_mean_mwh|,.0f}} MWh on a normal weekday; there were {{json:results/eda/eda.json:external.n_holidays_on_workdays|.0f}} such days in 2012–2014). Part of the effect comes from the season: many holidays are in winter, when the load is lower anyway. Weekends hardly differ from weekdays: {{json:results/eda/eda.json:external.weekend_mean_mwh|,.0f}} MWh.
+A holiday on a weekday lowers the load by {{json:results/eda/eda.json:external.holiday_drop_pct|.1f}} % on average ({{json:results/eda/eda.json:external.holiday_mean_mwh|,.0f}} MWh vs {{json:results/eda/eda.json:external.workday_mean_mwh|,.0f}} MWh on a normal weekday; there were {{json:results/eda/eda.json:external.n_holidays_on_workdays|.0f}} such days in 2012–2014). Part of the effect comes from the season: many holidays are in winter, when the load is lower anyway. Weekends hardly differ from weekdays: {{json:results/eda/eda.json:external.weekend_mean_mwh|,.0f}} MWh.
 
 ## 6. Typical load profiles
 
@@ -94,13 +94,13 @@ The silhouette grows up to k = 8, but from k = 5 on there is a cluster of one cl
 - Cluster 0, "evening peak, moderate night", is the largest. Load rises in the morning, stays flat during the day and peaks at 18:00; at night it is about half of the daytime level; weekends look like weekdays.
 - Cluster 1, "flat around the clock": almost as much at night as during the day, a small evening peak at 20:00.
 - Cluster 2, "day and evening, near zero at night": work from 9:00 to 22:00 without days off, at night about a quarter of the daytime level. These are large clients, about 55 MWh per day on average (query `q07`).
-- Cluster 3, "weekday daytime": a daytime peak on weekdays, at weekends consumption is half as high (ratio {{cell:results/clusters/summary.csv:cluster=3:weekend_to_weekday}}). It looks like offices and manufacturing.
+- Cluster 3, "weekday daytime": a daytime peak on weekdays, at weekends consumption is half as high (ratio {{cell:results/clusters/summary.csv:cluster=3:weekend_to_weekday}}). It resembles offices and industry.
 
 The clients are anonymous, so the names describe only the shape of the profile.
 
 ## 7. Forecasting methods
 
-**Setup.** Time-based hold-out: training 2012-01-01 – 2014-09-30, test 2014-10-01 – 2014-12-31 (92 days, 2208 hours). On each test day at midnight a forecast for the next 24 hours is made using only data before that midnight. Forecasts are made for the total load and for each of the {{json:results/forecast/params.json:n_clients}} clients separately, {{json:results/forecast/params.json:n_series}} series in total. Series are processed in parallel (joblib).
+**Setup.** Time-based hold-out: training 2012-01-01 – 2014-09-30, test 2014-10-01 – 2014-12-31 (92 days, 2,208 hours). On each test day at midnight a forecast for the next 24 hours is made using only data before that midnight. Forecasts are made for the total load and for each of the {{json:results/forecast/params.json:n_clients}} clients separately, {{json:results/forecast/params.json:n_series}} series in total. Series are processed in parallel (joblib).
 
 **Baselines:**
 
@@ -108,7 +108,7 @@ The clients are anonymous, so the names describe only the shape of the profile.
 - seasonal naive 24 h: the value of the same hour yesterday;
 - seasonal naive 168 h: the value of the same hour a week ago.
 
-**ETS.** The first version was one Holt–Winters model on the hourly series with a 168-hour season. It lost to the seasonal naive 24 h forecast: total MAE 20,963 against 7631 kWh. The level smoothing came out around 0.9, and the level of the last evening hours was carried over to the whole next day. In the second version the hourly series is cut into 24 daily series (all values at 00:00, all at 01:00 and so on), and each gets simple exponential smoothing with an additive weekly season (statsmodels `ExponentialSmoothing`), refitted on every test day.
+**ETS.** The first version was one Holt–Winters model on the hourly series with a 168-hour season (run `20261116-195315_forecast`). It lost to the seasonal naive 24 h forecast: total MAE 20,963 kWh vs 7,631 kWh. The level smoothing came out around 0.9, and the level of the last evening hours was carried over to the whole next day. In the second version the hourly series is cut into 24 daily series (all values at 00:00, all at 01:00 and so on), and each gets simple exponential smoothing with an additive weekly season (statsmodels `ExponentialSmoothing`), refitted on every test day.
 
 The window and the season were chosen by MAE on September 2014, the last month of the training part; the test was not used for this:
 
@@ -138,11 +138,11 @@ Time and memory: time is training plus forecasting one series over all 92 test d
 
 {{csv:results/report/time_memory.csv}}
 
-Main points:
+Key findings:
 
 - Boosting is the best both on the total and over clients: total MAE {{cell:results/forecast/summary.csv:model=gbm:total_mae|,.0f}} kWh, {{json:results/report/ratios.json:gbm_vs_snaive24_pct|.0f}} % lower than seasonal naive 24 h; it is the best for {{cell:results/forecast/summary.csv:model=gbm:wins_mase}} of {{json:results/forecast/params.json:n_clients}} clients.
 - Ridge regression is second on the total (MAE {{cell:results/forecast/summary.csv:model=ridge:total_mae|,.0f}}), but over clients it is slightly worse than ETS on average. It is the fastest of the trained models: {{cell:results/forecast/summary.csv:model=ridge:fit_s_mean|.3f}} s per series.
-- ETS on 24 daily series beats seasonal naive, by a small margin on the total (MAE {{cell:results/forecast/summary.csv:model=ets:total_mae|,.0f}}) and more clearly over clients (mean MASE {{cell:results/forecast/summary.csv:model=ets:mase_mean|.3f}} against {{cell:results/forecast/summary.csv:model=snaive24:mase_mean|.3f}}). It is the slowest method: {{cell:results/forecast/summary.csv:model=ets:fit_s_mean|.1f}} s per series, because 24 models are fitted for every test day.
+- ETS on 24 daily series beats seasonal naive, by a small margin on the total (MAE {{cell:results/forecast/summary.csv:model=ets:total_mae|,.0f}}) and more clearly over clients (mean MASE {{cell:results/forecast/summary.csv:model=ets:mase_mean|.3f}} vs {{cell:results/forecast/summary.csv:model=snaive24:mase_mean|.3f}}). It is the slowest method: {{cell:results/forecast/summary.csv:model=ets:fit_s_mean|.1f}} s per series, because 24 models are fitted for every test day.
 - For the total, seasonal naive 24 h is better than 168 h: the weekly seasonality is weak, and the weather changes more over a week than over a day. For clients of the weekday cluster it is the other way round, 168 h is better (see below).
 - The naive forecast (last value) is useless for hourly forecasting: MASE {{cell:results/forecast/summary.csv:model=naive:total_mase|.1f}}.
 
@@ -207,7 +207,7 @@ The queries are in `sql/queries.sql`, run through `pandas.read_sql_query`, and t
 
 For example, `q10` confirms the pandas count: boosting is the best model for {{cell:results/sql/q10_best_model_per_series.csv:model=gbm:wins}} clients. Query times are in `results/sql/timing.csv`; all are under 0.3 s.
 
-**pandas against SQLite.** The same aggregation, cluster consumption by month since 2012:
+**pandas vs SQLite.** The same aggregation, cluster consumption by month since 2012:
 
 {{csv:results/bench/pandas_vs_sql.csv|method,seconds,peak_rss_mb,result_rows,same_result}}
 
@@ -221,10 +221,10 @@ The results match. pandas is faster, because the daily table in Parquet is small
 
 ## 11. Conclusions
 
-1. The data are of good quality: the index has no gaps or duplicates, there are no NaN values. The problems are zeros before a client is connected and the clock-change artefact; both are handled.
+1. The data are of good quality: the index has no gaps or duplicates, there are no NaN values. The problems are zeros before a client is connected and the DST artefact; both are handled.
 2. Reading in chunks with float32 and storing in Parquet shrink the file from {{json:results/ingest.json:convert.csv_mb|.0f}} to {{json:results/ingest.json:convert.parquet_mb|.0f}} MB and the read time from {{cell:results/bench/read_formats.csv:method=csv, pandas default (float64):seconds|.2f}} to {{cell:results/bench/read_formats.csv:method=parquet zstd, float32:seconds|.2f}} s. Only streaming over chunks reduces peak memory.
 3. The total load has a strong daily cycle, a weak weekly cycle and a yearly cycle tied to temperature: in summer the load is higher because of cooling.
-4. Four typical profiles were found: evening (168 clients), flat around the clock (95), day without night (33) and weekday office (21).
+4. Four typical profiles were found: evening peak (168 clients), flat around the clock (95), day and evening with near zero at night (33) and weekday daytime (21).
 5. Gradient boosting on lags, calendar and temperature is the best model: total MASE {{cell:results/forecast/summary.csv:model=gbm:total_mase|.2f}}, best for {{cell:results/forecast/summary.csv:model=gbm:wins_mase}} of {{json:results/forecast/params.json:n_clients}} clients. Ridge regression is slightly worse but {{json:results/report/ratios.json:gbm_over_ridge_time|.0f}} times faster. ETS beats seasonal naive only in the version with 24 daily series and is the slowest.
 6. Most errors fall on holidays and the days before them.
 

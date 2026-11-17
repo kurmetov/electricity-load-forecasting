@@ -7,6 +7,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+from PIL import Image
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -32,7 +33,7 @@ SLIDES = [
     {"title": "Code layout",
      "bullets": [
          "main.py: console menu and step runner, python main.py all",
-         "elf/data.py: download, CSV → Parquet in chunks, float32, resampling, clock change fix",
+         "elf/data.py: download, CSV → Parquet in chunks, float32, resampling, DST fix",
          "elf/eda.py, elf/external.py: EDA, STL, ADF/KPSS, ACF/PACF, weather and holidays",
          "elf/clustering.py: k-means of profiles; elf/forecast.py: baselines, ETS, ridge regression, boosting, metrics",
          "elf/db.py + sql/: SQLite, 11 queries, ER diagram; elf/bench.py: time and memory comparison",
@@ -52,7 +53,7 @@ SLIDES = [
          "{{json:results/eda/eda.json:missing_zeros.clients_by_first_year.2011}} clients have data from 2011, another "
          "{{json:results/eda/eda.json:missing_zeros.clients_by_first_year.2012}} from 2012",
          "Models use {{json:results/eda/eda.json:missing_zeros.clients_active}} clients with data from 2012-01-01 to the end",
-         "Clock change: in March the 01:00 hour is zero for everyone, in October it holds two hours; fixed",
+         "DST change: in March the 01:00 hour is zero for everyone, in October it holds two hours; fixed",
          "Outliers (robust z > 5): {{json:results/eda/eda.json:outliers.flagged_share_pct}} % of client-days, "
          "most of them on 25 December and 1 January",
      ],
@@ -63,7 +64,7 @@ SLIDES = [
          "weekly (daily series): {{json:results/eda/eda.json:stl_daily.seasonal_strength}}, weekends hardly differ from weekdays",
          "Daily series: ADF p = {{json:results/eda/eda.json:stationarity.0.adf_p}} (non-stationary), "
          "after the 7-day difference ADF p < 0.001 and KPSS p > 0.05",
-         "ACF of the hourly series: peaks at 24, 48, … h → lags 24, 48, 168, 336 h as features",
+         "ACF of the hourly series: peaks at 24, 48, … h → lags 24, 48, 72, 168, 336 h as features",
      ],
      "image": FIG + "03_acf_pacf.png"},
     {"title": "External factors: temperature and holidays",
@@ -71,7 +72,7 @@ SLIDES = [
          "Correlation of daily load with temperature: Pearson {{json:results/eda/eda.json:external.pearson_temp|.2f}}, "
          "Spearman {{json:results/eda/eda.json:external.spearman_temp|.2f}}: load is higher in summer (cooling)",
          "Below 15 °C the relation almost disappears: electric heating is not visible for these clients",
-         "Holiday on a weekday: −{{json:results/eda/eda.json:external.holiday_drop_pct|.1f}} % against a normal weekday",
+         "Holiday on a weekday: −{{json:results/eda/eda.json:external.holiday_drop_pct|.1f}} % vs a normal weekday",
      ],
      "image": FIG + "05_temp_vs_load.png"},
     {"title": "Typical profiles: k-means",
@@ -97,11 +98,10 @@ SLIDES = [
              "time is training plus 92 forecasts on one client series; \"best for clients\" is the number of clients where the model had the lowest MASE."},
     {"title": "Error analysis",
      "bullets": [
-         "December is worse than October and November for all models: holidays and the days before them",
-         "Boosting sMAPE on holidays {{cell:results/forecast/errors_by_day_type.csv:day_type=holiday:gbm|.1f}} % "
-         "against {{cell:results/forecast/errors_by_day_type.csv:day_type=working day:gbm|.1f}} % on working days",
-         "The worst day is 25 December: the models expect a normal weekday",
-         "By cluster: the weekday daytime profile is the easiest to forecast (median boosting MASE "
+         "December is the hardest month: holidays and the days before them; the worst day is 25 December",
+         "Boosting sMAPE: {{cell:results/forecast/errors_by_day_type.csv:day_type=holiday:gbm|.1f}} % on holidays vs "
+         "{{cell:results/forecast/errors_by_day_type.csv:day_type=working day:gbm|.1f}} % on working days",
+         "Easiest cluster: weekday daytime profile (median boosting MASE "
          "{{cell:results/forecast/errors_mase_by_cluster.csv:cluster=3:gbm|.2f}})",
      ],
      "image": FIG + "08_errors.png"},
@@ -116,22 +116,21 @@ SLIDES = [
          "SQLite {{json:results/report/ratios.json:sqlite_peak_rss_mb|.0f}} MB, it reads only what it needs from disk",
      ]},
     {"title": "SQLite: ER diagram", "full": FIG + "09_er.png"},
-    {"title": "Streamlit dashboard", "full": "report/dashboard.png",
-     "caption": "Filters: period, all clients / cluster / client, series type, models. "
-                "Tabs: consumption, forecast with metrics, clusters, model comparison."},
+    {"title": "Streamlit dashboard", "full": "report/dashboard.png", "bare": True,
+     "caption": "Streamlit dashboard: filters (period, cluster or client, series, models) and four tabs, here the forecast"},
     {"title": "Conclusions",
      "bullets": [
-         "Boosting on lags is the best: total MAE {{cell:results/forecast/summary.csv:model=gbm:total_mae|,.0f}} kWh against "
+         "Boosting on lags is the best: total MAE {{cell:results/forecast/summary.csv:model=gbm:total_mae|,.0f}} kWh vs "
          "{{cell:results/forecast/summary.csv:model=snaive24:total_mae|,.0f}} for seasonal naive 24 h; best for "
          "{{cell:results/forecast/summary.csv:model=gbm:wins_mase}} of {{json:results/forecast/params.json:n_clients}} clients",
          "Ridge regression is almost as accurate and trains in {{cell:results/forecast/summary.csv:model=ridge:fit_s_mean|.3f}} s per series",
          "ETS on the hourly series lost to seasonal naive; ETS on 24 daily series beat it but is the slowest",
-         "Four profiles; the evening household profile is the largest, the weekday daytime one is the easiest to forecast",
+         "Four profiles; the evening-peak profile is the largest, the weekday daytime one is the easiest to forecast",
          "Limitations: actual rather than forecast temperature; few holidays in the test; one weather point for the whole country",
      ]},
     {"title": "Summary",
      "stats": [
-         ("−{{json:results/report/ratios.json:gbm_vs_snaive24_pct|.0f}} %", "total MAE of boosting against seasonal naive 24 h"),
+         ("−{{json:results/report/ratios.json:gbm_vs_snaive24_pct|.0f}} %", "total MAE of boosting vs seasonal naive 24 h"),
          ("{{cell:results/forecast/summary.csv:model=gbm:wins_mase}} of {{json:results/forecast/params.json:n_clients}}",
           "clients for which boosting is the best model"),
          ("{{json:results/clusters/result.json:k}}", "typical load profiles (k-means)"),
@@ -152,12 +151,26 @@ def add_text(slide, left, top, width, height, lines, size=16):
         p.space_after = Pt(6)
 
 
-def add_full_picture(slide, path: Path, top, max_height) -> None:
+def text_height(lines, size, width) -> int:
+    """Rough height of a bullet block: ~0.5 em per character, 1.2 em per line plus paragraph spacing."""
+    per_line = int(width / Pt(size * 0.5))
+    rows = sum(-(-len(resolve(line)) // per_line) for line in lines)
+    return int(rows * Pt(size * 1.2) + len(lines) * Pt(6))
+
+
+def add_full_picture(slide, path: Path, top, max_height, width=Cm(31.8)) -> None:
     """Picture as large as fits under the title, centred."""
-    pic = slide.shapes.add_picture(str(path), Cm(1), top, width=Cm(31.8))
+    pic = slide.shapes.add_picture(str(path), Cm(1), top, width=width)
     if pic.height > max_height:
         pic.width, pic.height = int(pic.width * max_height / pic.height), max_height
     pic.left = (Cm(33.867) - pic.width) // 2
+
+
+def wide(path: Path) -> bool:
+    if not path.exists():
+        return False
+    with Image.open(path) as im:
+        return im.width >= 2 * im.height
 
 
 def add_stats(slide, stats, top) -> None:
@@ -190,24 +203,35 @@ def build() -> Path:
             add_text(slide, Cm(2), Cm(6), Cm(30), Cm(3), [spec["title"]], size=36)
             add_text(slide, Cm(2), Cm(10), Cm(30), Cm(2), [spec["subtitle"]], size=18)
             continue
-        title = slide.shapes.add_textbox(Cm(1), Cm(0.6), Cm(31), Cm(2)).text_frame
-        title.text = spec["title"]
-        title.paragraphs[0].font.size = Pt(32)
-        title.paragraphs[0].font.bold = True
-        title.paragraphs[0].font.color.rgb = RGBColor(0x1F, 0x3A, 0x5F)
+        if not spec.get("bare"):
+            title = slide.shapes.add_textbox(Cm(1), Cm(0.6), Cm(31), Cm(2)).text_frame
+            title.text = spec["title"]
+            title.paragraphs[0].font.size = Pt(32)
+            title.paragraphs[0].font.bold = True
+            title.paragraphs[0].font.color.rgb = RGBColor(0x1F, 0x3A, 0x5F)
         top = Cm(3)
-        if "table" in spec:
+        if spec.get("bare"):  # picture over the whole slide, the caption names it
+            add_full_picture(slide, ROOT / spec["full"], Cm(0.3), Cm(17), Cm(33.2))
+            add_text(slide, Cm(1), Cm(17.4), Cm(31), Cm(1), [spec["caption"]], size=16)
+            slide.shapes[-1].text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
+        elif "table" in spec:
             add_table(slide, spec["table"], top)
             add_text(slide, Cm(1), Cm(14.5), Cm(31.8), Cm(4), [spec["note"]], size=16)
         elif "full" in spec:
             caption = spec.get("caption")
-            add_full_picture(slide, ROOT / spec["full"], Cm(2.8), Cm(13.4 if caption else 15.6))
+            add_full_picture(slide, ROOT / spec["full"], Cm(2.5), Cm(14.6 if caption else 15.9), Cm(32.8))
             if caption:
-                add_text(slide, Cm(1), Cm(16.4), Cm(31.8), Cm(2), [caption], size=16)
+                add_text(slide, Cm(1), Cm(17.2), Cm(31.8), Cm(1.2), [caption], size=15)
+                slide.shapes[-1].text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
         elif "stats" in spec:
             add_stats(slide, spec["stats"], Cm(3.2))
             add_text(slide, Cm(1), Cm(15.8), Cm(31.8), Cm(1.5), [spec["footer"]], size=24)
             slide.shapes[-1].text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
+        elif "image" in spec and wide(ROOT / spec["image"]):  # wide figure: text on top, picture below at full width
+            height = text_height(spec["bullets"], 17, Cm(31.8))
+            add_text(slide, Cm(1), top, Cm(31.8), height, spec["bullets"], size=17)
+            pic_top = top + height + Cm(0.4)
+            add_full_picture(slide, ROOT / spec["image"], pic_top, Cm(18.3) - pic_top, Cm(32.8))
         elif "image" in spec and (ROOT / spec["image"]).exists():
             add_text(slide, Cm(1), top, Cm(12.5), Cm(15.5), spec["bullets"], size=17)
             slide.shapes.add_picture(str(ROOT / spec["image"]), Cm(14), top, width=Cm(19.3))

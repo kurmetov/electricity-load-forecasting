@@ -84,7 +84,7 @@ def plot_profiles(centres: pd.DataFrame, sizes: pd.Series, names: dict) -> None:
         ax.set_xlabel("hour")
         ax.set_xticks(range(0, 24, 3))
     axes[0].set_ylabel("share of client mean")
-    fig.legend(loc="lower center", ncol=2, fontsize=8, bbox_to_anchor=(0.5, -0.08))
+    fig.legend(loc="lower center", ncol=2, fontsize=11, bbox_to_anchor=(0.5, -0.14))
     fig.suptitle("Cluster centres of daily profiles (k-means)")
     fig.tight_layout()
     fig.savefig(cfg.FIGURES / "06_cluster_profiles.png", dpi=150, bbox_inches="tight")
